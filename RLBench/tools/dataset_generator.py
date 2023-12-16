@@ -179,7 +179,7 @@ def run(i, lock, task_index, variation_count, results, file_lock, tasks):
 
     img_size = list(map(int, FLAGS.image_size))
 
-    obs_config = ObservationConfig(state=FLAGS.state)
+    obs_config = ObservationConfig()
     obs_config.set_all(True)
     obs_config.right_shoulder_camera.image_size = img_size
     obs_config.left_shoulder_camera.image_size = img_size

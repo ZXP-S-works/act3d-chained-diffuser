@@ -29,7 +29,11 @@ python dataset_generator.py \
     --episodes_per_task=$train_episodes_per_task \
     --variations=1 \
     --offset=0 \
-    --processes=$processes; python dataset_generator.py \
+    --processes=$processes;
+```
+
+```
+python dataset_generator.py \
     --save_path=$data_dir/$val_dir \
     --tasks=$(cat $root/hiveformer/$task_file | tr '\n' ',') \
     --image_size=$image_size \
@@ -81,7 +85,10 @@ python dataset_generator.py \
     --episodes_per_task=$train_episodes_per_task \
     --variations=-1 \
     --offset=0 \
-    --processes=$processes; python dataset_generator.py \
+    --processes=$processes
+```
+```
+python dataset_generator.py \
     --save_path=$data_dir/$val_dir \
     --tasks=$(cat $root/hiveformer/$task_file | tr '\n' ',') \
     --image_size=$image_size \

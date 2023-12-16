@@ -1,9 +1,9 @@
 main_dir=act3d
 
-dataset=/projects/katefgroup/datasets/rlbench/diffusion_trajectories_train/
-valset=/projects/katefgroup/datasets/rlbench/diffusion_trajectories_val/
+dataset=/home/zxp/baselines/act3d-chained-diffuser/data/train/
+valset=/home/zxp/baselines/act3d-chained-diffuser/data/val/
 
-task=stack_blocks
+task=place_cups
 
 
 batch_size_val=4
@@ -27,12 +27,12 @@ embedding_dim=60
 
 
 CUDA_LAUNCH_BLOCKING=1 python -m torch.distributed.launch --nproc_per_node 1 --master_port $RANDOM \
-    main_keypose.py \
+    ../main_keypose.py \
      --tasks $task \
      --dataset $dataset \
      --valset $valset \
      --instructions instructions.pkl \
-     --gripper_loc_bounds tasks/18_peract_tasks_location_bounds.json \
+     --gripper_loc_bounds ../1_peract_tasks_location_bounds.json \
      --weight_tying $weight_tying\
      --gp_emb_tying $gp_emb_tying\
      --exp_log_dir $main_dir \
