@@ -1,37 +1,49 @@
-#task_names=('place_cups' 'light_bulb_in' 'place_wine_at_rack_location' 'put_groceries_in_cupboard'
-#'slide_block_to_color_target' 'sweep_to_dustpan_of_size' 'stack_blocks' 'close_jar' 'insert_onto_square_peg'
-#'put_money_in_safe' 'meat_off_grill' 'open_drawer' 'reach_and_drag' 'push_buttons' 'stack_cups' 'turn_tap'
-#'put_item_in_drawer' 'place_shape_in_shape_sorter')
-task_names=('place_wine_at_rack_location')
+root=/home/zxp/baselines/act3d-chained-diffuser
+data_dir=$root/data/raw
+output_dir=$root/data/packaged
+train_dir=18_peract_tasks_train
+val_dir=18_peract_tasks_val
+train_episodes_per_task=1
+val_episodes_per_task=1
+image_size="256,256"
+task_file=tasks/peract_1_tasks.csv
+processes=3
 
-# B Preprocess train and val data
-for task in "${task_names[@]}"; do
-    for split_dir in 'train'; do
-        python -m data_preprocessing.data_gen \
-            --data_dir=/home/zxp/projects/C2F_bi_equi/c2f_bi_equi_data/$split_dir \
-            --output=/home/zxp/baselines/act3d-chained-diffuser/data/$split_dir \
-            --image_size="256,256" \
-            --max_variations=60 \
-            --tasks=$task
-    done
-done
+## A - Generate raw train and val data
+#python RLBench/tools/dataset_generator.py \
+#    --save_path=$data_dir/$train_dir \
+#    --tasks=$(cat $root/$task_file | tr '\n' ',') \
+#    --image_size=$image_size \
+#    --renderer=opengl \
+#    --episodes_per_task=$train_episodes_per_task \
+#    --variations=-1 \
+#    --offset=0 \
+#    --processes=$processes
 
-# 3 - Preprocess Instructions for Both Datasets
-for task in "${task_names[@]}"; do
-    for split_dir in 'train'; do
-      python -m data_preprocessing.preprocess_instructions \
-      --tasks=$task \
-      --output=instructions.pkl \
-      --variations={0..199} \
-      --annotations=data_preprocessing/annotations.json
-    done
-done
+## B - Preprocess train and val data
+#for task in $(cat $root/$task_file | tr '\n' ' '); do
+#    for split_dir in $train_dir $val_dir; do
+#        python -m data_preprocessing.data_gen \
+#            --data_dir=$data_dir/$split_dir \
+#            --output=$output_dir/$split_dir \
+#            --image_size=$image_size \
+#            --max_variations=60 \
+#            --tasks=$task
+#    done
+#done
 
-# 4 - Compute Workspace Bounds for Both Datasets
-for task in "${task_names[@]}"; do
-    python -m data_preprocessing.compute_workspace_bounds \
-        --dataset=/home/zxp/baselines/act3d-chained-diffuser/data/val \
-        --out_file=1_peract_tasks_location_bounds.json \
-        --variations={0..199} \
-        --tasks=$task
-done
+##3 - Preprocess Instructions for Both Datasets
+#python -m data_preprocessing.preprocess_instructions \
+#    --tasks $(cat $root/$task_file | tr '\n' ' ') \
+#    --output instructions.pkl \
+#    --variations {0..199} \
+#    --annotations data_preprocessing/annotations.json
+
+#4 - Compute Workspace Bounds for Both Datasets
+output_dir=$root/data/packaged
+task_file=tasks/peract_1_tasks.csv
+python -m data_preprocessing.compute_workspace_bounds \
+    --dataset $output_dir/$train_dir \
+    --out_file 1_peract_tasks_location_bounds.json \
+    --variations {0..199} \
+    --tasks $(cat $task_file | tr '\n' ' ')

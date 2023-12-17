@@ -1,9 +1,9 @@
 main_dir=act3d
 
-dataset=/home/zxp/baselines/act3d-chained-diffuser/data/train/
+dataset=/home/zxp/baselines/act3d-chained-diffuser/preprocessed_data/train/
 valset=/home/zxp/baselines/act3d-chained-diffuser/data/val/
 
-task=place_cups
+task=place_wine_at_rack_location
 
 
 batch_size_val=4
