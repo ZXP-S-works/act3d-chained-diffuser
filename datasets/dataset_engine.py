@@ -209,20 +209,20 @@ class RLBenchDataset(Dataset):
 
         # Low-level trajectory
         traj, traj_lens = None, 0
-        if self._return_low_lvl_trajectory:
-            traj_items = [
-                self._interpolate_traj(episode[5][i]) for i in frame_ids
-            ]
-            max_l = max(len(item) for item in traj_items)
-            traj = torch.zeros(len(traj_items), max_l, 8)
-            traj_lens = torch.as_tensor(
-                [len(item) for item in traj_items]
-            )
-            for i, item in enumerate(traj_items):
-                traj[i, :len(item)] = item
-            traj_mask = torch.zeros(traj.shape[:-1])
-            for i, len_ in enumerate(traj_lens.long()):
-                traj_mask[i, len_:] = 1
+        # if self._return_low_lvl_trajectory:
+        #     traj_items = [
+        #         self._interpolate_traj(episode[5][i]) for i in frame_ids
+        #     ]
+        #     max_l = max(len(item) for item in traj_items)
+        #     traj = torch.zeros(len(traj_items), max_l, 8)
+        #     traj_lens = torch.as_tensor(
+        #         [len(item) for item in traj_items]
+        #     )
+        #     for i, item in enumerate(traj_items):
+        #         traj[i, :len(item)] = item
+        #     traj_mask = torch.zeros(traj.shape[:-1])
+        #     for i, len_ in enumerate(traj_lens.long()):
+        #         traj_mask[i, len_:] = 1
 
         # Augmentations
         if self._training:
@@ -245,11 +245,11 @@ class RLBenchDataset(Dataset):
             "curr_gripper": gripper[..., :self._action_dim],
             "curr_gripper_history": gripper_history[..., :self._action_dim]
         }
-        if self._return_low_lvl_trajectory:
-            ret_dict.update({
-                "trajectory": traj[..., :self._action_dim],  # e.g. tensor (n_frames, T, 8)
-                "trajectory_mask": traj_mask.bool()  # e.g. tensor (n_frames, T)
-            })
+        # if self._return_low_lvl_trajectory:
+        #     ret_dict.update({
+        #         "trajectory": traj[..., :self._action_dim],  # e.g. tensor (n_frames, T, 8)
+        #         "trajectory_mask": traj_mask.bool()  # e.g. tensor (n_frames, T)
+        #     })
         return ret_dict
 
     def __len__(self):

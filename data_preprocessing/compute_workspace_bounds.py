@@ -66,7 +66,7 @@ if __name__ == "__main__":
             cache_size=args.cache_size,
             max_episodes_per_task=args.max_episodes_per_task,
             cameras=args.cameras,  # type: ignore
-            return_low_lvl_trajectory=True,
+            return_low_lvl_trajectory=False,
             dense_interpolation=True,
             interpolation_length=50,
             training=False
@@ -80,7 +80,7 @@ if __name__ == "__main__":
         for i in range(len(dataset)):
             ep = dataset[i]
             bounds[task].append(ep["action"][:, :3])
-            bounds[task].append(ep["trajectory"][..., :3].reshape([-1, 3]))
+            # bounds[task].append(ep["trajectory"][..., :3].reshape([-1, 3]))
 
     bounds = {
         task: [

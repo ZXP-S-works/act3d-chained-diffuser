@@ -1,7 +1,7 @@
 main_dir=act3d
 
-dataset=/home/zxp/baselines/act3d-chained-diffuser/preprocessed_data/train/
-valset=/home/zxp/baselines/act3d-chained-diffuser/data/val/
+dataset=/home/zxp/baselines/act3d-chained-diffuser/data/packaged/18_peract_tasks_train
+valset=/home/zxp/baselines/act3d-chained-diffuser/data/packaged/18_peract_tasks_val
 
 task=place_wine_at_rack_location
 
@@ -31,7 +31,7 @@ CUDA_LAUNCH_BLOCKING=1 python -m torch.distributed.launch --nproc_per_node 1 --m
      --tasks $task \
      --dataset $dataset \
      --valset $valset \
-     --instructions instructions.pkl \
+     --instructions ../instructions.pkl \
      --gripper_loc_bounds ../1_peract_tasks_location_bounds.json \
      --weight_tying $weight_tying\
      --gp_emb_tying $gp_emb_tying\
