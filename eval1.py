@@ -1,5 +1,6 @@
 """Online evaluation script on RLBench."""
 import random
+import sys
 from typing import Tuple, Optional
 from pathlib import Path
 import json
@@ -145,7 +146,8 @@ def load_models(args):
         diffusion_model.eval()
 
     if args.predict_keypose:
-        act3d_model_dict = torch.load(args.act3d_checkpoint, map_location="cpu")
+        directory_path = os.path.abspath(os.path.join(os.path.dirname(__file__), args.act3d_checkpoint))
+        act3d_model_dict = torch.load(directory_path, map_location="cpu")
         act3d_model_dict_weight = {}
         for key in act3d_model_dict["weight"]:
             _key = key[7:]

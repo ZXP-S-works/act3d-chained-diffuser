@@ -21,7 +21,7 @@ num_ckpts=${#tasks[@]}
 for ((i=0; i<$num_ckpts; i++)); do
   CUDA_LAUNCH_BLOCKING=1 python ../eval1.py \
     --tasks ${tasks[$i]} \
-    --act3d_checkpoint train_logs/act3d/${tasks[$i]}.pth \
+    --act3d_checkpoint train_logs/act3d/${tasks[$i]}/last.pth \
     --traj_model diffusion \
     --verbose $verbose \
     --model act3d \
@@ -40,7 +40,7 @@ for ((i=0; i<$num_ckpts; i++)); do
     --run_log_dir ${tasks[$i]}-ONLINE \
     --use_instruction $use_instruction \
     --act3d_use_instruction $act3d_use_instruction \
-    --instructions instructions.pkl \
+    --instructions ../instructions.pkl \
     --max_tries $max_tries \
     --max_steps -1 \
     --gripper_loc_bounds_file $gripper_loc_bounds_file \

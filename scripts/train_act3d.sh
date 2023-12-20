@@ -7,7 +7,7 @@ task=place_wine_at_rack_location
 
 
 batch_size_val=4
-batch_size=4
+batch_size=1
 lr=1e-4
 
 gripper_bounds_buffer=0.04
@@ -17,7 +17,7 @@ max_episodes_per_taskvar=100
 symmetric_rotation_loss=0
 num_ghost_points=1000
 num_ghost_points_val=10000
-
+train_iters=1000
 gp_emb_tying=1
 num_sampling_level=3
 regress_position_offset=0
@@ -30,6 +30,7 @@ CUDA_LAUNCH_BLOCKING=1 python -m torch.distributed.launch --nproc_per_node 1 --m
     ../main_keypose.py \
      --tasks $task \
      --dataset $dataset \
+     --train_iters $train_iters \
      --valset $valset \
      --instructions ../instructions.pkl \
      --gripper_loc_bounds ../1_peract_tasks_location_bounds.json \
