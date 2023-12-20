@@ -8,7 +8,9 @@ import os
 import torch
 import numpy as np
 import tap
-
+# import sys
+# project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# sys.path.insert(0, project_dir)
 from model.keypose_optimization.act3d import Act3D
 from model.trajectory_optimization.diffusion_model import DiffusionPlanner
 from utils.utils_without_rlbench import (
@@ -17,8 +19,7 @@ from utils.utils_without_rlbench import (
     get_gripper_loc_bounds,
     round_floats
 )
-from online_evaluation.utils_with_rlbench import RLBenchEnv, Actioner
-
+from utils_with_rlbench import RLBenchEnv, Actioner
 
 class Arguments(tap.Tap):
     diff_checkpoint: Path

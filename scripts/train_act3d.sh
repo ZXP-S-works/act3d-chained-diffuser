@@ -7,7 +7,7 @@ task=place_wine_at_rack_location
 
 
 batch_size_val=4
-batch_size=16
+batch_size=4
 lr=1e-4
 
 gripper_bounds_buffer=0.04

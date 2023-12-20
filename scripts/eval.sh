@@ -1,12 +1,12 @@
-exp=diff_trajectory
+exp=act3d
 
 tasks=(
-    unplug_charger
+    place_wine_at_rack_location
 )
-data_dir=/home/sirdome/katefgroup/datasets/raw/diffusion_trajectories_val/
+data_dir=/home/zxp/baselines/act3d-chained-diffuser/data/raw/18_peract_tasks_val
 num_episodes=100
-gripper_loc_bounds_file=10_tough_diffusion_location_bounds.json
-act3d_gripper_loc_bounds_file=tasks/74_hiveformer_tasks_location_bounds.json
+gripper_loc_bounds_file=../1_peract_tasks_location_bounds.json
+act3d_gripper_loc_bounds_file=../1_peract_tasks_location_bounds.json
 
 use_instruction=1
 act3d_use_instruction=0
@@ -17,27 +17,26 @@ verbose=1
 interpolation_length=50
 single_task_gripper_loc_bounds=1
 cameras="left_shoulder,right_shoulder,wrist"
-
 num_ckpts=${#tasks[@]}
 for ((i=0; i<$num_ckpts; i++)); do
-  CUDA_LAUNCH_BLOCKING=1 python online_evaluation/eval1.py \
+  CUDA_LAUNCH_BLOCKING=1 python ../eval1.py \
     --tasks ${tasks[$i]} \
-    --act3d_checkpoint train_logs/nikos_checkpoints/${tasks[$i]}.pth \
+    --act3d_checkpoint train_logs/act3d/${tasks[$i]}.pth \
     --traj_model diffusion \
     --verbose $verbose \
     --model act3d \
     --action_dim 7 \
     --collision_checking 0 \
     --predict_keypose 1 \
-    --predict_traj 1 \
+    --predict_traj 0 \
     --diff_checkpoint diffusion_last.pth \
     --single_task_gripper_loc_bounds $single_task_gripper_loc_bounds \
     --data_dir $data_dir \
     --offline $offline \
     --num_episodes $num_episodes \
     --headless $headless \
-    --output_file eval_logs/$exp/${tasks[$i]}.json  \
-    --exp_log_dir eval_logs/$exp \
+    --output_file ../eval_logs/$exp/${tasks[$i]}.json  \
+    --exp_log_dir ../eval_logs/$exp \
     --run_log_dir ${tasks[$i]}-ONLINE \
     --use_instruction $use_instruction \
     --act3d_use_instruction $act3d_use_instruction \
