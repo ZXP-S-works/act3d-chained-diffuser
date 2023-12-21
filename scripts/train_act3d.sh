@@ -7,7 +7,7 @@ task=place_wine_at_rack_location
 
 
 batch_size_val=4
-batch_size=1
+batch_size=4
 lr=1e-4
 
 gripper_bounds_buffer=0.04
@@ -26,7 +26,7 @@ embedding_dim=24
 embedding_dim=60
 
 
-CUDA_LAUNCH_BLOCKING=1 python -m torch.distributed.launch --nproc_per_node 1 --master_port $RANDOM \
+CUDA_LAUNCH_BLOCKING=1 python -m torch.distributed.launch --nproc_per_node 2 --master_port $RANDOM \
     ../main_keypose.py \
      --tasks $task \
      --dataset $dataset \

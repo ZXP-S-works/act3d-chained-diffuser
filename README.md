@@ -66,3 +66,7 @@ See `data_preprocessing` folder. Additionally download [instructions.pkl](https:
 ## Evaluation
 
 `bash online_evaluation/eval.sh`. Make sure to edit the data/checkpoint paths!
+
+## Gotchas
+
+debug train_trajectory.sh in pycharm using torch.distributed: https://blog.csdn.net/weixin_43135178/article/details/131608938
