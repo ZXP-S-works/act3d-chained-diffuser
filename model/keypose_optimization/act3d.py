@@ -232,7 +232,7 @@ class Act3D(nn.Module):
             else:
                 anchor = gt_position if gt_position is not None else position_pyramid[-1]
             ghost_pcd_i = self._sample_ghost_points(total_timesteps, device, level=i, anchor=anchor)
-
+            print(i, ' visible_rgb_features_pyramid[i] ', visible_rgb_features_pyramid[i].shape)
             if i == 0:
                 # Coarse RGB features
                 visible_rgb_features_i = visible_rgb_features_pyramid[i]
@@ -252,7 +252,7 @@ class Act3D(nn.Module):
                     f[i] for (f, i) in zip(visible_rgb_pos_pyramid[i], indices)])
                 ghost_pcd_context_features_i = einops.rearrange(
                     visible_rgb_features_i, "b npts c -> npts b c")
-
+            print('ghost_pcd_context_features_i ', ghost_pcd_context_features_i.shape)
             # Compute ghost point features and their positional embeddings by attending to visual
             # features and current gripper position
             ghost_pcd_context_features_i = torch.cat(
@@ -308,6 +308,9 @@ class Act3D(nn.Module):
                 height, width, level=i
             )
             query_features = query_features[-1]
+
+            print('level \t scene features \t ghost points')
+            print(i, query_features.shape, ghost_pcd_features_i.shape)
 
             top_idx = torch.max(ghost_pcd_masks_i[-1], dim=-1).indices
             ghost_pcd_i = einops.rearrange(ghost_pcd_i, "b npts c -> b c npts")
